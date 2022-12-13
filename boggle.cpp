@@ -91,6 +91,34 @@ std::set<std::string> boggle(const std::set<std::string>& dict, const std::set<s
 bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>& prefix, const std::vector<std::vector<char> >& board, 
 								   std::string word, std::set<std::string>& result, unsigned int r, unsigned int c, int dr, int dc)
 {
-//add your solution here!
+	//add your solution here!
 
+	// Base case
+	if (r == board.size() || c == board.size())
+	{
+		if (dict.find(word) != dict.end()) // Checking if longest word is in dic
+		{
+			result.insert(word);
+			return true;
+		}
+		return false;
+	}
+
+	word += board[r][c];
+
+	if (prefix.find(word) != prefix.end()) // Checking if word is a prefix
+	{
+		// Checking if word is found
+		if (boggleHelper(dict, prefix, board, word, result, r + dr, c + dc, dr, dc)) 
+		{
+			return true;
+		}
+	}
+	// If word is not yet found, check whether current word is a valid word
+	if (dict.find(word) != dict.end())
+	{
+		result.insert(word);
+		return true;
+	}
+	return false;
 }
